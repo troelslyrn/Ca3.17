@@ -13,6 +13,17 @@ import security.PasswordStorage;
 @Entity(name = "SEED_USER")
 public class User implements IUser, Serializable{
  
+//User user = new User();
+    
+    private int id;
+    
+    public int getId() {
+        return id;
+    }
+     public void setId(int id) {
+        this.id = id;
+    }
+    
   //You will need to change this to save a Hashed/salted password 
   @Column(length = 255, name = "PASSWORD_HASH",nullable = false)
   private String passwordHash; 
@@ -71,5 +82,11 @@ public class User implements IUser, Serializable{
   public String getUserName() {
     return userName;
   }
-     
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+  
+  
 }

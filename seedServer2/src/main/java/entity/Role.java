@@ -13,6 +13,7 @@ public class Role implements Serializable {
 
   @ManyToMany(mappedBy = "roles")
   private List<User> users;
+  
 
   private static final long serialVersionUID = 1L;
   
@@ -30,7 +31,9 @@ public class Role implements Serializable {
   public List<User> getUsers() {
     return users;
   }
-
+  
+  
+  
   public void addUser(User user) {
     if(users == null){
       users = new ArrayList();
