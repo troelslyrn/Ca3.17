@@ -12,6 +12,8 @@ class AuthenticationHandler {
     this._isAdmin = false;
     this._isUser = false;
     this._errorMessage = "";
+    this._firstName = "";
+    this._lastName = "";
   }
 
   get isloggedIn() {
@@ -27,6 +29,14 @@ class AuthenticationHandler {
   }
   get userName() {
     return this._userName;
+  }
+
+  get firstName(){
+    return this._firstName;
+  }
+
+  get lastName(){
+    return this._lastName;
   }
 
   setLoginObserver = (observer) => {
@@ -108,6 +118,34 @@ class AuthenticationHandler {
         if (this._token != null) {
           this._userWasLoggenIn(cb);
         }
+      })
+      .catch(err => {
+        console.log(err);
+        if (cb) {
+          cb({ errorMessage: fetchHelper.addJustErrorMessage(err) });
+        }
+      })
+    return;
+  }
+
+  register = (username, password, firstName, lastName, cb) => {
+    var user = { username, password, firstName, lastName};
+
+    var options = {
+      method: "POST",
+      body: JSON.stringify(user),
+      headers: new Headers({
+        'Content-Type' : 'application/json'
+      })
+    }
+    let register=null;  //Pass on response the "second" promise so we can read errors from server
+    fetch(URL + "api/register", options)
+      .then(reg => {
+        register = reg;
+        return reg.json();
+      })
+      .then(data => {
+        errorChecker(register, data);
       })
       .catch(err => {
         console.log(err);

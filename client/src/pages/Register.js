@@ -5,14 +5,16 @@ import auth from "../authorization/auth";
 class Register extends Component {
   constructor() {
     super();
-    this.state = { err: "", user: {username:"",password:""} }
+    this.state = { err: "", user: {username:"",password:"",firstName:"",lastName:""} }
 }
 
   handleSubmit = (event) => {
     event.preventDefault()
     const user = this.state.user.username;
     const pass = this.state.user.password;
-    auth.login(user, pass, (err, loggedIn) => {
+    const fname = this.state.user.firstName;
+    const lname = this.state.user.lastName;
+    auth.register(user, pass, fname, lname, (err, registered) => {
       if (err) {
         return this.setState({ err: err.errorMessage });
       }
@@ -44,8 +46,8 @@ class Register extends Component {
           <label htmlFor="inputFirstName" className="sr-only">First name</label>
           <input type="text" value={this.state.user.firstName} onChange={this.onChange} id="firstname" className="form-control" placeholder="First Name" required />
 
-          <label htmlFor="inputPhoneNumber" className="sr-only">Last name</label>
-          <input type="number" value={this.state.user.lastName} onChange={this.onChange} id="lastname" className="form-control" placeholder="Last Name" required />
+          <label htmlFor="inputLastName" className="sr-only">Last name</label>
+          <input type="text" value={this.state.user.lastName} onChange={this.onChange} id="lastname" className="form-control" placeholder="Last Name" required />
 
           <button className="btn btn-lg btn-primary btn-block" type="submit">Register</button>
           <br />
