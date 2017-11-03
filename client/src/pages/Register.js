@@ -43,12 +43,6 @@ class Register extends Component {
           <label htmlFor="inputPassword" className="sr-only">Password</label>
           <input type="password" value={this.state.user.password} onChange={this.onChange} id="password" className="form-control" placeholder="Password" required />
 
-          <label htmlFor="inputFirstName" className="sr-only">First name</label>
-          <input type="text" value={this.state.user.firstName} onChange={this.onChange} id="firstname" className="form-control" placeholder="First Name" required />
-
-          <label htmlFor="inputLastName" className="sr-only">Last name</label>
-          <input type="text" value={this.state.user.lastName} onChange={this.onChange} id="lastname" className="form-control" placeholder="Last Name" required />
-
           <button className="btn btn-lg btn-primary btn-block" type="submit">Register</button>
           <br />
         </form>
