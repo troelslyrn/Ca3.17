@@ -4,7 +4,7 @@ import fetchHelper, { errorChecker } from "../facades/fetchHelpers"
 const URL = require("../../package.json").serverURL;
 
 class AuthenticationHandler {
-
+//firstname og lastname skal fjernes, da disse ikke bruges i DB
   constructor() {
     this._token = null;  //Keps users logged in, even after a refresh of the page
     //this.failedLogin = false;
@@ -127,7 +127,7 @@ class AuthenticationHandler {
       })
     return;
   }
-
+//firstname og lastname skal fjernes, da disse ikke bruges i DB
   register = (username, password, firstName, lastName, cb) => {
     var user = { username, password, firstName, lastName};
 

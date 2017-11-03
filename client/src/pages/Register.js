@@ -7,7 +7,7 @@ class Register extends Component {
     super();
     this.state = { err: "", user: {username:"",password:"",firstName:"",lastName:""} }
 }
-
+//firstname og lastname skal fjernes, da disse ikke bruges i DB
   handleSubmit = (event) => {
     event.preventDefault()
     const user = this.state.user.username;
