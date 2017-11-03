@@ -26,10 +26,11 @@ import security.PasswordStorage;
 @Path("demoadmin")
 //@RolesAllowed("Admin")
 public class Admin {
+
     private UserFacade uf;
     private Gson gson;
     User user = new User();
-
+    
     public Admin() {
         
         uf = new UserFacade(Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME));
@@ -37,32 +38,31 @@ public class Admin {
         gson = new Gson();
     }
     
-  
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  public String getSomething(){
-    String now = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
-    return "{\"message\" : \"Hello Admin from server (call accesible by only authenticated ADMINS)\",\n"+"\"serverTime\": \""+now +"\"}"; 
-  
-  }
-  @Path("addUser")
-  @POST
-  @Produces(MediaType.APPLICATION_JSON)
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getSomething() {
+        String now = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
+        return "{\"message\" : \"Hello Admin from server (call accesible by only authenticated ADMINS)\",\n" + "\"serverTime\": \"" + now + "\"}";        
+        
+    }
+
+    @Path("addUser")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
 //  @Consumes(MediaType.APPLICATION_JSON)
-  public String addUser(String content) throws PasswordStorage.CannotPerformOperationException{
-   JsonObject body = new JsonParser().parse(content).getAsJsonObject();
-      System.out.println("ddededuoguyguyuguygyuygu");
-   String userName = "";
-    String password = "";
+    public String addUser(String content) throws PasswordStorage.CannotPerformOperationException {
+        JsonObject body = new JsonParser().parse(content).getAsJsonObject();
+        System.out.println("ddededuoguyguyuguygyuygu");
+        String userName = "";
+        String password = "";
 //    String userRole ="";
-     if(body.has("userName"))
-        {
+        if (body.has("userName")) {
             userName = body.get("userName").getAsString();
         }
-     if(body.has("password"))
-        {
+        if (body.has("password")) {
             password = body.get("password").getAsString();
         }
+
 //     if (body.has("userRole"))
 //     {
 //         userRole= body.get("userRole").getAsString();
@@ -75,25 +75,26 @@ public class Admin {
 //        }
 //     uf.addUser(user);
 //   return new Gson().toJson(user);
-  User user = new User(userName,password);
-  uf.addUser(user);
-  return new Gson().toJson(user);
-  }
-  
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path("/all")
-  public String seeAllUseres(){
-   return new Gson().toJson(uf.getAllUsers());
-  
-  }
-  @DELETE
+        User user = new User(userName, password);
+        user.addRole(uf.getRole("User"));
+        uf.addUser(user);
+        return new Gson().toJson(user);
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/all")
+    public String seeAllUseres() {
+        return new Gson().toJson(uf.getAllUsers());
+        
+    }
+
+    @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/delete")
-    public String deleteUser(@PathParam("userName") String userName)
-    {
-       
-        User user  =uf.deleteUser(userName);
+    public String deleteUser(@PathParam("userName") String userName) {
+        
+        User user = uf.deleteUser(userName);
         
         return new Gson().toJson(user);
     }
