@@ -1,9 +1,11 @@
 package rest;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import deploy.DeploymentConfiguration;
+import entity.Role;
 import facades.UserFacade;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,6 +20,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import entity.User;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.PUT;
@@ -81,17 +84,31 @@ public class Admin {
         return new Gson().toJson(user);
     }
     
+    @Path("all")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/all")
-    public String seeAllUseres() {
-        return new Gson().toJson(uf.getAllUsers());
-        
+    public String getAllUsers() {
+        //return new Gson().toJson(uf.getUsers());
+        List<User> l = uf.getAllUsers();
+        JsonArray response = new JsonArray();
+        for(User u: l) {
+            JsonObject jo = new JsonObject();
+            jo.addProperty("userName", u.getUserName());
+            JsonArray roles = new JsonArray();
+            for(Role r: u.getRoles()) {
+                JsonObject ro = new JsonObject();
+                ro.addProperty("roleName", r.getRoleName());
+                roles.add(ro);
+            }
+            jo.add("roles", roles);
+            response.add(jo);
+        }
+        return new Gson().toJson(response);
     }
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/delete")
+    @Path("/{userName}")
     public String deleteUser(@PathParam("userName") String userName) {
         
         User user = uf.deleteUser(userName);

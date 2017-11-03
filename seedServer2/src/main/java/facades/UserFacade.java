@@ -56,17 +56,17 @@ public class UserFacade implements IUserFacade {
     }
 
     @Override
-    public User addUser(User u) {
+    public User addUser(User user) {
         EntityManager em = emf.createEntityManager();
 
         try {
             em.getTransaction().begin();
 
-            em.persist(u);
+            em.persist(user);
 
             em.getTransaction().commit();
 
-            return u;
+            return user;
         } finally {
             em.close();
         }
@@ -107,7 +107,7 @@ public class UserFacade implements IUserFacade {
         }
 
     }
-
+//skal laves færdig morther fucker !!!
     @Override
     public User editUser(User user) {
         EntityManager em = emf.createEntityManager();

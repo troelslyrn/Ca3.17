@@ -40,23 +40,38 @@ public class UserEndpoint {
         return "{\"message\" : \"test message\"}";
     }
 
-    @Path("adduser")
+   @Path("addUser")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public String postPerson(String content) throws PasswordStorage.CannotPerformOperationException {
+//  @Consumes(MediaType.APPLICATION_JSON)
+    public String addUser(String content) throws PasswordStorage.CannotPerformOperationException {
         JsonObject body = new JsonParser().parse(content).getAsJsonObject();
+        System.out.println("ddededuoguyguyuguygyuygu");
         String userName = "";
-        String passWord = "";
-
+        String password = "";
+//    String userRole ="";
         if (body.has("userName")) {
             userName = body.get("userName").getAsString();
         }
         if (body.has("password")) {
-            passWord = body.get("password").getAsString();
+            password = body.get("password").getAsString();
         }
 
-        User u = new User(userName, passWord);
-        uf.addUser(u);
-        return new Gson().toJson(u);
+//     if (body.has("userRole"))
+//     {
+//         userRole= body.get("userRole").getAsString();
+//     }
+//     User user = null;
+//        try {
+//            user = new User(userName, password);
+//        } catch (PasswordStorage.CannotPerformOperationException ex) {
+//            ex.printStackTrace();
+//        }
+//     uf.addUser(user);
+//   return new Gson().toJson(user);
+        User user = new User(userName, password);
+        user.addRole(uf.getRole("User"));
+        uf.addUser(user);
+        return new Gson().toJson(user);
     }
 }
