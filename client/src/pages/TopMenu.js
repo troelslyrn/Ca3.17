@@ -29,13 +29,8 @@ class TopMenu extends Component {
               <a className="navbar-brand" href="/" style={{pointerEvents: "none"}}>Semester Seed</a>
             </div>
             <ul className="nav navbar-nav">
-              <li><Link to="/about">About</Link></li>
-              {this.state.isUser && (
-              <li><Link to="/user">Page for Users </Link></li>
-              )}
-              {this.state.isAdmin && (
-              <li><Link to="/admin">Page for Admins</Link></li>
-              )}
+              {this.state.isUser && (<li><Link to="/location">Locations</Link></li>)}
+              {this.state.isAdmin && (<li><Link to="/admin">Admin page</Link></li>)}
             </ul>
             <ul className="nav navbar-nav navbar-right">
               <li className="navbar-text" style={{ color: "steelBlue" }}>{logInStatus}</li>
