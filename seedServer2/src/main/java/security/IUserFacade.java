@@ -19,7 +19,7 @@ public interface IUserFacade {
   public void addEntityManagerFactory(EntityManagerFactory emf);
   public EntityManager getEntityManager();
   public User addUser (User user);
-  public User deleteUser (int id);
+  public User deleteUser (String userName);
  // public User getUser (int id);
   public List<User> getAllUsers();
   public User editUser(User user);

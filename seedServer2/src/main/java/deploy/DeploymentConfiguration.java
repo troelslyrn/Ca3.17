@@ -21,7 +21,7 @@ import security.Secret;
 @WebListener
 public class DeploymentConfiguration implements ServletContextListener {
 
-  public static String PU_NAME = "PU-Local";
+  public static String PU_NAME = "pu_development";
 
   @Override
   @SuppressWarnings("empty-statement")

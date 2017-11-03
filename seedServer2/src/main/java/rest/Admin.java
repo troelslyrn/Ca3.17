@@ -24,10 +24,11 @@ import javax.ws.rs.PUT;
 import security.PasswordStorage;
 
 @Path("demoadmin")
-@RolesAllowed("Admin")
+//@RolesAllowed("Admin")
 public class Admin {
     private UserFacade uf;
     private Gson gson;
+    User user = new User();
 
     public Admin() {
         
@@ -47,11 +48,13 @@ public class Admin {
   @Path("addUser")
   @POST
   @Produces(MediaType.APPLICATION_JSON)
-  @Consumes(MediaType.APPLICATION_JSON)
-  public String addUser(String content){
+//  @Consumes(MediaType.APPLICATION_JSON)
+  public String addUser(String content) throws PasswordStorage.CannotPerformOperationException{
    JsonObject body = new JsonParser().parse(content).getAsJsonObject();
-    String userName = "";
+      System.out.println("ddededuoguyguyuguygyuygu");
+   String userName = "";
     String password = "";
+//    String userRole ="";
      if(body.has("userName"))
         {
             userName = body.get("userName").getAsString();
@@ -60,15 +63,21 @@ public class Admin {
         {
             password = body.get("password").getAsString();
         }
-     User user = null;
-        try {
-            user = new User(userName, password);
-        } catch (PasswordStorage.CannotPerformOperationException ex) {
-            ex.printStackTrace();
-        }
-     uf.addUser(user);
-   return new Gson().toJson(user);
-  
+//     if (body.has("userRole"))
+//     {
+//         userRole= body.get("userRole").getAsString();
+//     }
+//     User user = null;
+//        try {
+//            user = new User(userName, password);
+//        } catch (PasswordStorage.CannotPerformOperationException ex) {
+//            ex.printStackTrace();
+//        }
+//     uf.addUser(user);
+//   return new Gson().toJson(user);
+  User user = new User(userName,password);
+  uf.addUser(user);
+  return new Gson().toJson(user);
   }
   
   @GET
@@ -80,10 +89,11 @@ public class Admin {
   }
   @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{id}")
-    public String deleteUser(@PathParam("id") int id)
+    @Path("/delete")
+    public String deleteUser(@PathParam("userName") String userName)
     {
-        entity.User user  =uf.deleteUser(id);
+       
+        User user  =uf.deleteUser(userName);
         
         return new Gson().toJson(user);
     }
@@ -93,7 +103,7 @@ public class Admin {
 //    @Produces(MediaType.APPLICATION_JSON)
 //     public String editUser(String content){
 //     JsonObject body = new JsonParser().parse(content).getAsJsonObject();
-//     User user = uf.editUser(body.get("id").getAsInt());
+//     User user = uf.editUser(body.get("id").getAsLong());
 //       if(body.has("userName"))
 //        {
 //            user.setUserName(body.get("firstName").getAsString());

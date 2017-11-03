@@ -1,5 +1,6 @@
 package facades;
 
+import entity.Role;
 import security.IUserFacade;
 import entity.User;
 import java.util.List;
@@ -19,6 +20,8 @@ public class UserFacade implements IUserFacade {
   public UserFacade(EntityManagerFactory emf) {
     this.emf = emf;   
   }
+
+    
 
   public EntityManager getEntityManager() {
     return emf.createEntityManager();
@@ -55,15 +58,18 @@ public class UserFacade implements IUserFacade {
     }
 
     @Override
-    public User addUser(User user) {
+    public User addUser(User u) {
          EntityManager em = emf.createEntityManager();
 
         try
         {
             em.getTransaction().begin();
-            em.persist(user);
+             
+             
+             em.persist(u);
+          
             em.getTransaction().commit();
-            return user;
+            return u;
         }
         finally
         {
@@ -72,13 +78,13 @@ public class UserFacade implements IUserFacade {
     }
 
     @Override
-    public User deleteUser(int id) {
+    public User deleteUser(String userName) {
         EntityManager em = emf.createEntityManager();
 
         try
         {
             em.getTransaction().begin();
-            User user = em.find(User.class, id);
+            User user = em.find(User.class, userName);
             em.remove(user);
             em.getTransaction().commit();
             return user;
@@ -111,7 +117,7 @@ public class UserFacade implements IUserFacade {
         try
         {
             em.getTransaction().begin();
-            User u = em.find(User.class, user.getId());
+            User u = em.find(User.class, user.getUserName());
             if(user != null)
             {
                u = user;
